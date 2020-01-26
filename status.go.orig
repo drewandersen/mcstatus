@@ -38,7 +38,7 @@ func New(config Config) (*Client, error) {
 
 	// test to ensure a connection can be established
 	client := &Client{Config: config}
-	_, err := client.status()
+	_, err := client.data()
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func New(config Config) (*Client, error) {
 // MaxPlayerCount return the number of players allowed to sign in on the
 // configured Minecraft server.
 func (c *Client) MaxPlayerCount() (int, error) {
-	status, err := c.status()
+	status, err := c.data()
 	if err != nil {
 		return 0, err
 	}
@@ -58,7 +58,7 @@ func (c *Client) MaxPlayerCount() (int, error) {
 // GetActivePlayerCount returns the number of players currently signed in on
 // the configured Minecraft server
 func (c *Client) ActivePlayerCount() (int, error) {
-	status, err := c.status()
+	status, err := c.data()
 	if err != nil {
 		return 0, err
 	}
@@ -68,7 +68,7 @@ func (c *Client) ActivePlayerCount() (int, error) {
 // GetMotd returns the current "message of the day" for the configured
 // Minecraft server
 func (c *Client) Motd() (string, error) {
-	status, err := c.status()
+	status, err := c.data()
 	if err != nil {
 		return "", err
 	}
@@ -78,14 +78,14 @@ func (c *Client) Motd() (string, error) {
 // GetVersion returns the current version of Minecraft running on the server
 // for this client.
 func (c *Client) Version() (string, error) {
-	status, err := c.status()
+	status, err := c.data()
 	if err != nil {
 		return "", err
 	}
 	return status.Version, nil
 }
 
-func (c *Client) status() (*status, error) {
+func (c *Client) data() (*status, error) {
 	conn, err := net.DialTimeout("tcp", c.Config.Addr, c.Config.Timeout)
 	if err != nil {
 		return nil, err
