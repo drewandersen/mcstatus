@@ -13,7 +13,8 @@ type Client struct {
 	Config
 }
 
-// Config is used to configure a Client
+// Config is used to configure a Client. Address should be a
+// fully-qualified domain name
 type Config struct {
 	Addr    string
 	Timeout time.Duration
@@ -107,6 +108,8 @@ func (c *Client) status() (*status, error) {
 	}
 
 	data := strings.Split(string(rawData[:]), "\x00\x00\x00")
+
+	fmt.Println(data)
 
 	if len(data) < 6 {
 		return nil, fmt.Errorf("invalid data returned: %s", data)
