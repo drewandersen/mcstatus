@@ -1,3 +1,3 @@
-module github.com/drewandersen/minecraft-status-go
+module github.com/drewandersen/mcstatus
 
 go 1.13
