@@ -40,26 +40,26 @@ func New(config Config) (*Client, error) {
 	return &Client{Config: config}, nil
 }
 
+// TODO fix this function... something changed in the response, and can no longer parse max player count.
 // MaxPlayerCount return the number of players allowed to sign in on the
 // configured Minecraft server.
-func (c *Client) MaxPlayerCount() (int, error) {
-	status, err := c.status()
-	if err != nil {
-		return 0, err
-	}
-	return status.MaxPlayerCount, nil
-}
-
-// TODO fix this function... something changed in the response, and can no longer parse active player count.
-// GetActivePlayerCount returns the number of players currently signed in on
-// the configured Minecraft server
-//func (c *Client) ActivePlayerCount() (int, error) {
+//func (c *Client) MaxPlayerCount() (int, error) {
 //	status, err := c.status()
 //	if err != nil {
 //		return 0, err
 //	}
-//	return status.ActivePlayerCount, nil
+//	return status.MaxPlayerCount, nil
 //}
+
+// GetActivePlayerCount returns the number of players currently signed in on
+// the configured Minecraft server
+func (c *Client) ActivePlayerCount() (int, error) {
+	status, err := c.status()
+	if err != nil {
+		return 0, err
+	}
+	return status.ActivePlayerCount, nil
+}
 
 // GetMotd returns the current "message of the day" for the configured
 // Minecraft server
