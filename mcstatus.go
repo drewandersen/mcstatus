@@ -58,13 +58,13 @@ func (c *Client) MaxPlayerCount() (int, error) {
 
 // GetActivePlayerCount returns the number of players currently signed in on
 // the configured Minecraft server
-func (c *Client) ActivePlayerCount() (int, error) {
-	status, err := c.status()
-	if err != nil {
-		return 0, err
-	}
-	return status.ActivePlayerCount, nil
-}
+//func (c *Client) ActivePlayerCount() (int, error) {
+//	status, err := c.status()
+//	if err != nil {
+//		return 0, err
+//	}
+//	return status.ActivePlayerCount, nil
+//}
 
 // GetMotd returns the current "message of the day" for the configured
 // Minecraft server
@@ -120,16 +120,16 @@ func (c *Client) status() (*status, error) {
 		return nil, err
 	}
 
-	mpc, err := strconv.Atoi(data[5])
-	if err != nil {
-		return nil, err
-	}
+	//	mpc, err := strconv.Atoi(data[5])
+	//	if err != nil {
+	//		return nil, err
+	//	}
 
 	status := &status{
 		Version:           data[2],
 		Motd:              data[3],
 		ActivePlayerCount: apc,
-		MaxPlayerCount:    mpc,
+		//		MaxPlayerCount:    mpc,
 	}
 
 	return status, nil
