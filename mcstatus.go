@@ -37,12 +37,6 @@ func New(config Config) (*Client, error) {
 		config.Timeout = 60 * time.Second
 	}
 
-	// test to ensure a connection can be established
-	client := &Client{Config: config}
-	_, err := client.status()
-	if err != nil {
-		return nil, err
-	}
 	return &Client{Config: config}, nil
 }
 
@@ -56,15 +50,16 @@ func (c *Client) MaxPlayerCount() (int, error) {
 	return status.MaxPlayerCount, nil
 }
 
+// TODO fix this function... something changed in the response, and can no longer parse active player count.
 // GetActivePlayerCount returns the number of players currently signed in on
 // the configured Minecraft server
-func (c *Client) ActivePlayerCount() (int, error) {
-	status, err := c.status()
-	if err != nil {
-		return 0, err
-	}
-	return status.ActivePlayerCount, nil
-}
+//func (c *Client) ActivePlayerCount() (int, error) {
+//	status, err := c.status()
+//	if err != nil {
+//		return 0, err
+//	}
+//	return status.ActivePlayerCount, nil
+//}
 
 // GetMotd returns the current "message of the day" for the configured
 // Minecraft server
@@ -109,8 +104,6 @@ func (c *Client) status() (*status, error) {
 
 	data := strings.Split(string(rawData[:]), "\x00\x00\x00")
 
-	fmt.Println(data)
-
 	if len(data) < 6 {
 		return nil, fmt.Errorf("invalid data returned: %s", data)
 	}
@@ -120,16 +113,16 @@ func (c *Client) status() (*status, error) {
 		return nil, err
 	}
 
-	mpc, err := strconv.Atoi(data[5])
-	if err != nil {
-		return nil, err
-	}
+	//mpc, err := strconv.Atoi(data[5])
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	status := &status{
 		Version:           data[2],
 		Motd:              data[3],
 		ActivePlayerCount: apc,
-		MaxPlayerCount:    mpc,
+		//MaxPlayerCount: mpc,
 	}
 
 	return status, nil
