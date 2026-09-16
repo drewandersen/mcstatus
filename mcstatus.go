@@ -87,6 +87,8 @@ func (c *Client) status() (*status, error) {
 		return nil, err
 	}
 
+	defer conn.Close()
+
 	_, err = conn.Write([]byte("\xFE\x01"))
 	if err != nil {
 		return nil, err
